@@ -61,6 +61,62 @@ namespace AOC2022
             Console.WriteLine($":: Final Score = {score}");
 
             StopExec();
+
+            Part2(inputLines);
+        }
+
+        private static void Part2(string[] inputLines)
+        {
+            StartExec();
+            Console.WriteLine("::: Part 2");
+
+            // X means you need to lose, Y means you need to end the round in a draw, and Z means you need to win
+            // Scores:
+            //   1 for Rock, 2 for Paper, and 3 for Scissors
+            //   0 if you lost, 3 if the round was a draw, and 6 if you won
+            // Hands:
+            //   A for Rock, B for Paper, and C for Scissors
+            // Rock defeats Scissors, Scissors defeats Paper, and Paper defeats Rock.
+
+            var score = 0;
+
+            var roundScore = 0;
+            foreach(string round in inputLines){
+                var hands = round.ToCharArray();
+                var opponent = hands[0];
+                var result = hands[2];
+
+                switch (result)
+                {
+                    case 'X':  // Lose
+                        if      (opponent.Equals('A')) { roundScore = 3; }
+                        else if (opponent.Equals('B')) { roundScore = 1; }
+                        else if (opponent.Equals('C')) { roundScore = 2; }
+                        // roundscore += 0;
+                        break;
+                    case 'Y':  // Draw
+                        if      (opponent.Equals('A')) { roundScore = 1; }
+                        else if (opponent.Equals('B')) { roundScore = 2; }
+                        else if (opponent.Equals('C')) { roundScore = 3; }
+                        roundScore += 3;
+                        break;
+                    case 'Z':  // Win
+                        if      (opponent.Equals('A')) { roundScore = 2; }
+                        else if (opponent.Equals('B')) { roundScore = 3; }
+                        else if (opponent.Equals('C')) { roundScore = 1; }
+                        roundScore += 6;
+                        break;
+                    default:
+                        Console.WriteLine($"ERROR!! result={result}");
+                        break;
+                }
+
+                score += roundScore;
+            }
+
+            Console.WriteLine($":: Final Score = {score}");
+
+            StopExec();
         }
     }
 }
