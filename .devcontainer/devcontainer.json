@@ -10,7 +10,8 @@
 		"vscode": {
 			"extensions": [
 				"ms-dotnettools.csharp",
-				"rokoroku.vscode-theme-darcula"
+				"rokoroku.vscode-theme-darcula",
+				"ms-dotnettools.vscode-dotnet-pack"
 			]
 		}
 	}
