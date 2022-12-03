@@ -30,6 +30,35 @@ namespace AOC2022
             Console.WriteLine($":: Final Score = {prioSum}");
 
             StopExec();
+
+            Part2(inputLines);
+        }
+
+        private void Part2(string[] inputLines)
+        {
+            StartExec();
+            Console.WriteLine("::: Part 2");
+
+            var prioSum = 0;
+            var rcksckCounter = 1;
+            var rcksckGroup = new List<List<char>>();
+
+            foreach(string rcksck in inputLines)
+            {
+                rcksckGroup.Add(rcksck.ToList());
+
+                if ((rcksckCounter % 3) == 0){
+                    var badge = rcksckGroup[0].Intersect(rcksckGroup[1]).Intersect(rcksckGroup[2]).First(); 
+                    prioSum += ConvertCharToPrio(badge);
+                    rcksckGroup.RemoveRange(0,3);
+                }
+
+                rcksckCounter++;
+            }
+
+            Console.WriteLine($":: Final Score = {prioSum}");
+
+            StopExec();
         }
 
         private int ConvertCharToPrio(char c)
