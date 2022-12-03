@@ -8,6 +8,15 @@ namespace AOC2022
 
             var inputLines = LoadInputFile("./puzzles/Day0.txt");
 
+            var sum = 0;
+
+            foreach(string line in inputLines)
+            {
+                // ToDo
+            }
+
+            Console.WriteLine($":: Final Score = {sum}");
+
             StopExec();
         }
     }

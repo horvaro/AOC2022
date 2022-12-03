@@ -11,7 +11,9 @@
 			"extensions": [
 				"ms-dotnettools.csharp",
 				"rokoroku.vscode-theme-darcula",
-				"ms-dotnettools.vscode-dotnet-pack"
+				"ms-dotnettools.vscode-dotnet-pack",
+				"eamodio.gitlens",
+				"kreativ-software.csharpextensions"
 			]
 		}
 	}
