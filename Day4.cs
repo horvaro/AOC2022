@@ -9,6 +9,7 @@ namespace AOC2022
             var inputLines = LoadInputFile("./puzzles/Day4.txt");
 
             var sum = 0;
+            var sum2 = 0;
 
             foreach(string line in inputLines)
             {
@@ -18,12 +19,18 @@ namespace AOC2022
 
                 if (elf1Range.First() <= elf2Range.First() && elf1Range.Last() >= elf2Range.Last() ||
                     elf2Range.First() <= elf1Range.First() && elf2Range.Last() >= elf1Range.Last())
-                    {
-                        sum++;
-                    }
+                {
+                    sum++;
+                }
+
+                if (elf1Range.Intersect(elf2Range).Any())
+                {
+                    sum2++;
+                }
             }
 
             Console.WriteLine($":: Fully Containing assignment pairs = {sum}");
+            Console.WriteLine($":: Overlapping assignment pairs = {sum2}");
 
             StopExec();
         }
