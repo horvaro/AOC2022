@@ -18,7 +18,7 @@
             "settings": {
                 "workbench.tree.indent": 16,
                 "workbench.tree.renderIndentGuides": "always",
-				"workbench.colorTheme": "GitHub Dark"
+				"workbench.colorTheme": "Visual Studio Dark"
             }
 		}
 	}
