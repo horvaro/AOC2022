@@ -35,24 +35,30 @@ namespace AOC2022
             }
 
             var crates = new List<Stack<string>>();
+            var cratesPart2 = new List<Stack<string>>();
             for (int i = 0; i < numCrates; i++) { crates.Add(new Stack<string>()); }
+            for (int i = 0; i < numCrates; i++) { cratesPart2.Add(new Stack<string>()); }
 
             // Load Init Crate State
             crateInitState.Reverse();
             foreach (var crateLine in crateInitState)
             {
                 Console.WriteLine(crateLine);
-                var crateEnumerator = crates.GetEnumerator();
+                var crateEm = crates.GetEnumerator();
+                var crate2Em = cratesPart2.GetEnumerator();
                 for (int i = 0; i < crateLine.Length; i+=4)
                 {
                     var crateItem = crateLine.Substring(i,3);
-                    crateEnumerator.MoveNext();
+                    crateEm.MoveNext();
+                    crate2Em.MoveNext();
                     if (!string.IsNullOrEmpty(crateItem.Trim()))
                     {
-                        crateEnumerator.Current.Push(crateItem);
+                        crateEm.Current.Push(crateItem);
+                        crate2Em.Current.Push(crateItem);
                     }
                 }
             }
+
 
             // Step Through procedure moves
             foreach (var procStep in loadProcedure.Skip(1))  //Skip 1 empty string line
@@ -61,17 +67,27 @@ namespace AOC2022
                 var ammount = ParseInt(command[1]);
                 var from = ParseInt(command[3]) -1;
                 var to = ParseInt(command[5]) -1;
+                var tmpStack = new Stack<string>();
 
                 for (int i=0; i < ammount; i++){
                     crates[to].Push(crates[from].Pop());
+                    tmpStack.Push(cratesPart2[from].Pop());
+                }
+
+                for (int i=0; i < ammount; i++){
+                    cratesPart2[to].Push(tmpStack.Pop());
                 }
             }
 
             var topCrates = string.Empty;
+            var topCreatesPart2 = string.Empty;
             crates.ForEach(c => topCrates += c.Pop());
+            cratesPart2.ForEach(c => topCreatesPart2 += c.Pop());
             topCrates = topCrates.Replace("[","").Replace("]","");
+            topCreatesPart2 = topCreatesPart2.Replace("[","").Replace("]","");
 
             Console.WriteLine($":: Top Crates = {topCrates}");
+            Console.WriteLine($":: Top Crates with CreateMover 9001 = {topCreatesPart2}");
 
             StopExec();
         }
