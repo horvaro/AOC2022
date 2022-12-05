@@ -71,9 +71,10 @@ namespace AOC2022
 
                 for (int i=0; i < ammount; i++){
                     crates[to].Push(crates[from].Pop());
-                    tmpStack.Push(cratesPart2[from].Pop());
+                    tmpStack.Push(cratesPart2[from].Pop()); // Push to Temp Stack for retaining order for Part2
                 }
 
+                // Pop From tempstack. Reverses Order Again -> Target Crate gets correct order for Part2
                 for (int i=0; i < ammount; i++){
                     cratesPart2[to].Push(tmpStack.Pop());
                 }
