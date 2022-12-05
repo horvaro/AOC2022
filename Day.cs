@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Globalization;
 
 namespace AOC2022
 {
@@ -21,11 +22,26 @@ namespace AOC2022
             }
         }
 
-        protected static string[] LoadInputFile(string filePath){
+        protected static string[] LoadInputFile(string filePath)
+        {
             Console.WriteLine(":: Load Input");
             var inputLines = System.IO.File.ReadAllLines(filePath);
             Console.WriteLine($":: Input has {inputLines.Length} lines");
             return inputLines;
+        }
+
+        protected static int ParseInt(string input)
+        {
+            var integer =  0;
+            var parseState = int.TryParse(input, CultureInfo.InvariantCulture, out integer);
+            if (parseState)
+            {
+                return integer;
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException();
+            }
         }
     }
 }
