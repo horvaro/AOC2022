@@ -10,11 +10,16 @@
 		"vscode": {
 			"extensions": [
 				"ms-dotnettools.csharp",
-				"rokoroku.vscode-theme-darcula",
 				"ms-dotnettools.vscode-dotnet-pack",
 				"eamodio.gitlens",
-				"kreativ-software.csharpextensions"
-			]
+				"kreativ-software.csharpextensions",
+				"EditorConfig.EditorConfig"
+			],
+            "settings": {
+                "workbench.tree.indent": 16,
+                "workbench.tree.renderIndentGuides": "always",
+				"workbench.colorTheme": "GitHub Dark"
+            }
 		}
 	}
 
