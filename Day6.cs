@@ -6,8 +6,6 @@ namespace AOC2022
         {
             StartExec();
 
-            var markerQueue = new Queue<char>();
-
             var content = File.ReadAllText("./puzzles/Day6.txt");
 
             var packetMarkerPos = FindStartMarker(content, 4);
@@ -19,7 +17,8 @@ namespace AOC2022
             StopExec();
         }
 
-        private int FindStartMarker(string datastream, int markerLength){
+        private int FindStartMarker(string datastream, int markerLength)
+        {
             var markerQueue = new Queue<char>();
 
             var cursor = 1;
