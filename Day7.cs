@@ -12,7 +12,7 @@ namespace AOC2022
             // Find all of the directories with a total size of at most 100000.
             // What is the sum of the total sizes of those directories?
             var fsTree = new FSTree();
-            FSTreeNode currentNode = fsTree.Root;
+            var currentNode = fsTree.Root;
             foreach(string line in inputLines.Skip(1))  // We want to skip "cd /" because we already created root
             {
                 var terminalOutput = line.Split(' ');
@@ -24,11 +24,11 @@ namespace AOC2022
                         case "cd":
                             if (terminalOutput[2].Equals(".."))
                             {
-                                currentNode = currentNode.Parent;
+                                currentNode = currentNode?.Parent;
                             }
                             else
                             {
-                                currentNode = currentNode.Directories.Find(d => d.Name.Equals(terminalOutput[2]));
+                                currentNode = currentNode?.Directories.Find(d => d.Name.Equals(terminalOutput[2]));
                             }
                             break;
                         case "ls":
@@ -44,13 +44,13 @@ namespace AOC2022
                     if (terminalOutput[0].Equals("dir"))
                     {
                         var newDirectory = new FSTreeNode(currentNode, terminalOutput[1]);
-                        currentNode.Directories.Add(newDirectory);
+                        currentNode?.Directories.Add(newDirectory);
                     }
                     else
                     {
                         var filesSize = ParseInt(terminalOutput[0]);
                         var file = new FSTreeLeaf(currentNode, terminalOutput[1], filesSize);
-                        currentNode.Files.Add(file);
+                        currentNode?.Files.Add(file);
                     }
                 }
             }
@@ -130,7 +130,7 @@ namespace AOC2022
 
         internal class FSTreeNode
         {
-            public FSTreeNode Parent { get; }
+            public FSTreeNode? Parent { get; }
             public List<FSTreeNode> Directories { get; }
             public List<FSTreeLeaf> Files { get; }
             public string Name { get; }
@@ -143,7 +143,7 @@ namespace AOC2022
                 Name = name;
             }
 
-            public FSTreeNode(FSTreeNode parent, string name)
+            public FSTreeNode(FSTreeNode? parent, string name)
             {
                 Parent = parent;
                 Directories = new List<FSTreeNode>();
@@ -160,11 +160,11 @@ namespace AOC2022
 
         internal class FSTreeLeaf
         {
-            public FSTreeNode Parent { get; }
+            public FSTreeNode? Parent { get; }
             public string Name { get; }
             public int Size { get; }
 
-            public FSTreeLeaf(FSTreeNode parent, string name, int size)
+            public FSTreeLeaf(FSTreeNode? parent, string name, int size)
             {
                 Parent = parent;
                 Name = name;
