@@ -60,6 +60,31 @@ namespace AOC2022
             Console.WriteLine($":: Final Score = {sum}");
 
             StopExec();
+
+
+
+            StartExec();
+
+            Console.WriteLine("::: Part 2");
+
+            // calc minimal folder size for deletion
+            var diskSize = 70_000_000;
+            var spaceNeededForUpdate = 30_000_000;
+            var usedSpace = fsTree.Root.Size();
+            var unusedSpace = diskSize - usedSpace;
+            var spaceToFreeUp = spaceNeededForUpdate - unusedSpace;
+
+            if (spaceToFreeUp <= 0)
+            {
+                Console.WriteLine($"This should not happen. Space needed = {spaceNeededForUpdate}, Unused Space = {unusedSpace}, Therefore: Space needed to free up = {spaceToFreeUp}");
+            }
+
+            // find folder with that size
+            var bigBoyDirectory = FindDirectoryToDelete(fsTree.Root, spaceToFreeUp);
+
+            Console.WriteLine($":: Size of folder to delete = {bigBoyDirectory}");
+
+            StopExec();
         }
 
         private int FindSmallDirectories(FSTreeNode node)
@@ -71,6 +96,25 @@ namespace AOC2022
                                     .Where(s => s < 100000)
                                     .DefaultIfEmpty(0)
                                     .Aggregate((a,b) => a+b);
+        }
+
+        private int FindDirectoryToDelete(FSTreeNode node, int minSpaceNeeded)
+        {
+            var subDirectories = node.Directories.Select(d => FindDirectoryToDelete(d, minSpaceNeeded))
+                                                       .DefaultIfEmpty(int.MaxValue).Min();
+            var nodeSize = node.Size();
+            if (nodeSize < minSpaceNeeded)
+            {
+                return int.MaxValue;
+            }
+            else if (nodeSize < subDirectories)
+            {
+                return nodeSize;
+            }
+            else
+            {
+                return subDirectories;
+            }
         }
 
 
