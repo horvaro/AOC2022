@@ -2,7 +2,7 @@ namespace AOC2022
 {
     public abstract class Day0 : Day
     {
-        public void Part1()
+        public static void Part1()
         {
             StartExec();
 
@@ -10,7 +10,7 @@ namespace AOC2022
 
             var sum = 0;
 
-            foreach(string line in inputLines)
+            foreach (string line in inputLines)
             {
                 // ToDo
             }

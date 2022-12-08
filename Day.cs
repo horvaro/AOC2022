@@ -32,30 +32,13 @@ namespace AOC2022
 
         protected static int ParseInt(string input)
         {
-            var integer =  0;
-            var parseState = int.TryParse(input, CultureInfo.InvariantCulture, out integer);
-            if (parseState)
-            {
-                return integer;
-            }
-            else
-            {
-                throw new ArgumentOutOfRangeException();
-            }
+            var parseState = int.TryParse(input, CultureInfo.InvariantCulture, out int integer);
+            return parseState ? integer : throw new ArgumentOutOfRangeException();
         }
 
         protected static int ParseInt(char input)
         {
-            var integer =  0;
-            var parseState = int.TryParse(input.ToString(), CultureInfo.InvariantCulture, out integer);
-            if (parseState)
-            {
-                return integer;
-            }
-            else
-            {
-                throw new ArgumentOutOfRangeException();
-            }
+            return ParseInt(input.ToString());
         }
     }
 }
