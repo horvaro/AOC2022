@@ -43,5 +43,19 @@ namespace AOC2022
                 throw new ArgumentOutOfRangeException();
             }
         }
+
+        protected static int ParseInt(char input)
+        {
+            var integer =  0;
+            var parseState = int.TryParse(input.ToString(), CultureInfo.InvariantCulture, out integer);
+            if (parseState)
+            {
+                return integer;
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+        }
     }
 }
