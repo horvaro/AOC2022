@@ -6,10 +6,10 @@
         {
             Console.WriteLine(":::::: AOC 2022 ::::::");
             Console.WriteLine(":::: Which Day do you want to run? ");
-            var consoleAnswer = Console.ReadLine();
+            //var consoleAnswer = Console.ReadLine();
 
             //DEBUG
-            //var consoleAnswer = "8";
+            var consoleAnswer = "9";
 
             consoleAnswer = consoleAnswer?.Trim();
 
