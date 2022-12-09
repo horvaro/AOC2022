@@ -10,6 +10,7 @@ namespace AOC2022
             var visitedPositions = new HashSet<string>();
             var map = new int[100,100];
             var head = new RopeEnd();
+            var prevHead = new RopeEnd();
             var tail = new RopeEnd();
 
             head.UpdatePos(50,50);
@@ -28,31 +29,28 @@ namespace AOC2022
                 for (int i=0; i<steps; i++)
                 {
                     var isLastStep = i+1 == steps;
+                    prevHead.UpdatePos(head.X, head.Y);
                     // Move Head
                     switch (direction)
                     {
                         case "U":
                             head.UpdatePos(head.X-1,head.Y);
-                            UpdateTail(tail, head, tail.X-1, tail.Y, isLastStep);
                             break;
                         case "D":
                             head.UpdatePos(head.X+1,head.Y);
-                            UpdateTail(tail, head, tail.X+1, tail.Y, isLastStep);
                             break;
                         case "L":
                             head.UpdatePos(head.X,head.Y-1);
-                            UpdateTail(tail, head, tail.X, tail.Y-1, isLastStep);
                             break;
                         case "R":
                             head.UpdatePos(head.X,head.Y+1);
-                            UpdateTail(tail, head, tail.X, tail.Y+1, isLastStep);
                             break;
                         default:
                             break;
                     }
 
                     // Move Tail
-
+                    MoveTail(tail, head, prevHead);
                     //PrintMap(map,head,tail);
 
                     visitedPositions.Add(tail.Position);
@@ -63,65 +61,29 @@ namespace AOC2022
             StopExec();
         }
 
-        private static void UpdateTail(RopeEnd tail, RopeEnd head, int proposedX, int proposedY, bool isLastStep)
+        private static void MoveTail(RopeEnd tail, RopeEnd head, RopeEnd prevHead)
         {
-            // Check if Tail touches Head before moving
             if (IsTailTouchingHead(tail, head))
             {
                 return;
             }
-            // Check for diagonal
-            else if ((Math.Abs(tail.X - head.X) == 1) && (Math.Abs(tail.Y - head.Y) == 1))
+            else
             {
-                //Console.WriteLine("DIAGONAL HEAD and TAIL");
-
-                if (isLastStep)
-                {
-                    //Console.WriteLine("... but last step = no change");
-                    return;
-                }
-                else if (proposedX != tail.X)
-                {
-                    var proposedTail = new RopeEnd();
-                    proposedTail.UpdatePos(tail.X, head.Y);
-
-                    //Console.WriteLine($"Head={head.Position}, x={proposedX}, y={proposedY}, Tail={tail.Position}, ProposedTail={proposedTail.Position}");
-
-                    tail.UpdatePos(proposedTail.X, proposedTail.Y);
-                }
-                else if (proposedY != tail.Y)
-                {
-                    var proposedTail = new RopeEnd();
-                    proposedTail.UpdatePos(head.X, tail.Y);
-
-                    //Console.WriteLine($"Head={head.Position}, x={proposedX}, y={proposedY}, Tail={tail.Position}, ProposedTail={proposedTail.Position}");
-
-                    tail.UpdatePos(proposedTail.X, proposedTail.Y);
-                }
-            }
-            else if (!(proposedX == head.X && proposedY == head.Y))
-            {
-                tail.UpdatePos(proposedX, proposedY);
+                tail.UpdatePos(prevHead.X, prevHead.Y);
             }
         }
 
         private static bool IsTailTouchingHead(RopeEnd tail, RopeEnd head)
         {
-            var down = (tail.X+1 == head.X && tail.Y == head.Y);
-            var up = (tail.X-1 == head.X && tail.Y == head.Y);
-            var right = (tail.Y-1 == head.Y && tail.X == head.X);
-            var left = (tail.Y+1 == head.Y && tail.X == head.X);
-            return down || up || left || right;
-        }
-
-        private static bool IsTailAdjToHead(RopeEnd head, RopeEnd tail)
-        {
-            return IsNeighbourInt(tail.X, head.X) && IsNeighbourInt(tail.Y, head.Y);
-        }
-
-        private static bool IsNeighbourInt(int a, int b)
-        {
-            return (b+1 == a) || (b-1 == a);
+            return (tail.X+1 == head.X && tail.Y == head.Y) ||
+                   (tail.X-1 == head.X && tail.Y == head.Y) ||
+                   (tail.X+1 == head.X && tail.Y+1 == head.Y) ||
+                   (tail.X-1 == head.X && tail.Y+1 == head.Y) ||
+                   (tail.X+1 == head.X && tail.Y-1 == head.Y) ||
+                   (tail.X-1 == head.X && tail.Y-1 == head.Y) ||
+                   (tail.X == head.X && tail.Y+1 == head.Y) ||
+                   (tail.X == head.X && tail.Y-1 == head.Y) ||
+                   (tail.X == head.X && tail.Y == head.Y);
         }
 
         private static void PrintMap(int[,] map, RopeEnd head, RopeEnd tail)
