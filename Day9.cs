@@ -1,3 +1,5 @@
+using System.Linq;
+
 namespace AOC2022
 {
     public class Day9 : Day
@@ -6,7 +8,7 @@ namespace AOC2022
         {
             StartExec();
 
-            var inputLines = LoadInputFile("./puzzles/Day9.txt");
+            var inputLines = LoadInputFile("./puzzles/Day9Example2.txt");
             var visitedPositions = new HashSet<string>();
             var map = new int[100,100];
             var head = new RopeEnd();
@@ -59,6 +61,57 @@ namespace AOC2022
 
             Console.WriteLine($":: Tail visited {visitedPositions.Count()} positions");
             StopExec();
+
+            Part2(inputLines);
+        }
+
+        public static void Part2(string[] inputLines)
+        {
+            StartExec();
+            Console.WriteLine("::: Part 2");
+
+            var visitedPositions = new HashSet<string>();
+            var map = new int[100,100];
+
+            foreach (string line in inputLines)
+            {
+                var command = line.Split(' ');
+                var steps = Convert.ToInt16(command[1]);
+                var direction = command[0];
+                var rope = Enumerable.Repeat(new RopeEnd(), 10).ToList();
+
+                //Console.WriteLine($"=== {line}");
+
+                for (int i=0; i<steps; i++)
+                {
+                    // Move Head
+                    var head = rope.First();
+                    var prevHead = new RopeEnd(); prevHead.UpdatePos(head.X, head.Y);
+                    switch (direction)
+                    {
+                        case "U":
+                            head.UpdatePos(head.X-1,head.Y);
+                            MoveRope(rope, head, prevHead);
+                            break;
+                        case "D":
+                            head.UpdatePos(head.X+1,head.Y);
+                            break;
+                        case "L":
+                            head.UpdatePos(head.X,head.Y-1);
+                            break;
+                        case "R":
+                            head.UpdatePos(head.X,head.Y+1);
+                            break;
+                        default:
+                            break;
+                    }
+
+                    visitedPositions.Add(rope.Last().Position);
+                }
+            }
+            
+            Console.WriteLine($":: Tail visited {visitedPositions.Count()} positions");
+            StopExec();
         }
 
         private static void MoveTail(RopeEnd tail, RopeEnd head, RopeEnd prevHead)
@@ -72,6 +125,20 @@ namespace AOC2022
                 tail.UpdatePos(prevHead.X, prevHead.Y);
             }
         }
+
+        private static void MoveRope(List<RopeEnd> rope, RopeEnd head, RopeEnd prevHead)
+        {
+            var nextElem = new RopeEnd(){ X=head.X, Y=head.Y };
+            var nextElemOld = new RopeEnd(){ X=prevHead.X, Y=prevHead.Y };
+            foreach(var elem in rope)
+            {
+                var current = new RopeEnd(){ X=elem.X, Y=elem.Y };
+                MoveTail(elem, nextElem, nextElemOld);
+                nextElemOld.X = current.X; nextElemOld.Y = current.Y;
+                nextElem.X = elem.X; nextElem.Y = current.Y;
+            }
+        }
+
 
         private static bool IsTailTouchingHead(RopeEnd tail, RopeEnd head)
         {
