@@ -134,8 +134,10 @@ namespace AOC2022
             {
                 var current = new RopeEnd(){ X=elem.X, Y=elem.Y };
                 MoveTail(elem, nextElem, nextElemOld);
-                nextElemOld.X = current.X; nextElemOld.Y = current.Y;
-                nextElem.X = elem.X; nextElem.Y = current.Y;
+                nextElemOld.X = current.X;
+                nextElemOld.Y = current.Y;
+                nextElem.X = elem.X;
+                nextElem.Y = elem.Y;
             }
         }
 

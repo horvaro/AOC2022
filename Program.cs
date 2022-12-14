@@ -6,10 +6,10 @@
         {
             Console.WriteLine(":::::: AOC 2022 ::::::");
             Console.WriteLine(":::: Which Day do you want to run? ");
-            //var consoleAnswer = Console.ReadLine();
+            var consoleAnswer = Console.ReadLine();
 
             //DEBUG
-            var consoleAnswer = "9";
+            //var consoleAnswer = "9";
 
             consoleAnswer = consoleAnswer?.Trim();
 
@@ -50,6 +50,10 @@
                 case "9":
                     Console.WriteLine(":::: Running Day 9");
                     Day9.Part1();
+                    break;
+                case "10":
+                    Console.WriteLine(":::: Running Day 10");
+                    Day10.Part1();
                     break;
                 default:
                     Console.WriteLine(":::: No such AOC2022 Day found. Bye ...");
