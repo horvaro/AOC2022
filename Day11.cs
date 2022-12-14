@@ -232,5 +232,11 @@ namespace AOC2022
         public int TargetMonkeyTestTrue { get; set; }
         public int TargetMonkeyTestFalse { get; set; }
         public Int128 ItemsInspected { get; set; } = 0;
+
+        public Monkey()
+        {
+            Items = new Queue<long>();
+            Operation = (x) => x;
+        }
     }
 }

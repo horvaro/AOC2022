@@ -59,6 +59,10 @@
                     Console.WriteLine(":::: Running Day 11");
                     Day11.Part1();
                     break;
+                case "12":
+                    Console.WriteLine(":::: Running Day 12");
+                    Day12.Part1();
+                    break;
                 default:
                     Console.WriteLine(":::: No such AOC2022 Day found. Bye ...");
                     break;
