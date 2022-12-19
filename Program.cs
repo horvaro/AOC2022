@@ -9,7 +9,7 @@
             //var consoleAnswer = Console.ReadLine();
 
             //DEBUG
-            var consoleAnswer = "15";
+            var consoleAnswer = "16";
 
             consoleAnswer = consoleAnswer?.Trim();
 
@@ -70,6 +70,10 @@
                 case "15":
                     Console.WriteLine(":::: Running Day 15");
                     Day15.Part1();
+                    break;
+                case "16":
+                    Console.WriteLine(":::: Running Day 16");
+                    Day16.Part1();
                     break;
                 default:
                     Console.WriteLine(":::: No such AOC2022 Day found. Bye ...");

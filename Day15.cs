@@ -1,6 +1,5 @@
 using System.Numerics;
 using System.Text.RegularExpressions;
-using System.Linq;
 
 namespace AOC2022
 {
