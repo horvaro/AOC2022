@@ -1,5 +1,6 @@
 using System.Numerics;
 using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace AOC2022
 {
@@ -9,8 +10,7 @@ namespace AOC2022
         {
             StartExec();
 
-            var inputLines = LoadInputFile("./puzzles/Day15Example.txt");
-            var sum = 0;
+            var inputLines = LoadInputFile("./puzzles/Day15.txt");
             var lineRegex = new Regex(
                 @"^Sensor at x=(-?\d+), y=(-?\d+): closest beacon is at x=(-?\d+), y=(-?\d+)$",
                 RegexOptions.Compiled  // Will be compiled at init, for exec performance
@@ -18,6 +18,7 @@ namespace AOC2022
             var sensors = new HashSet<Vector2>();
             var beacons = new HashSet<Vector2>();
             var distances = new Dictionary<Vector2,int>();
+            var coveredPosOnTargetLine = new HashSet<int>();
 
             foreach (string line in inputLines)
             {
@@ -36,7 +37,7 @@ namespace AOC2022
                 distances.Add(s,Distance(s,b));
             }
 
-            var targetY = 10;
+            var targetY = 2000000;
 
             foreach (var dist in distances)
             {
@@ -45,15 +46,50 @@ namespace AOC2022
 
                 if (IsLineReachable(s, d, targetY)){
                     Console.WriteLine($":::: {s} with distance {d} can reach Y={targetY}");
+                    var coveredXPos = CalcCoveredXPos(s, d, targetY);
+                    coveredXPos.ToList().ForEach(x => coveredPosOnTargetLine.Add(x));
                 }
                 else{
                     Console.WriteLine($":::: {s} with distance {d} can NOT reach Y={targetY}");
                 }
             }
 
-            Console.WriteLine($":: Final Score = {sum}");
+            Console.WriteLine($":: Final Score = {coveredPosOnTargetLine.Count}");
 
             StopExec();
+        }
+
+        private static ISet<int> CalcCoveredXPos(Vector2 s, int d, int targetY)
+        {
+            var coveredXPos = new HashSet<int>();
+
+            var sY = Convert.ToInt32(s.Y);
+            var sX = Convert.ToInt32(s.X);
+            
+            if (sY == targetY)
+            {
+                coveredXPos.Add(sX);
+                Enumerable.Range(sX, d).Select(x => coveredXPos.Add(x));
+                Enumerable.Range(sX - d, d).Select(x => coveredXPos.Add(x));
+            }
+            else
+            {
+                for (var i = 0; i < (d-1); i++)
+                {
+                    if ((sY > targetY) && (d-i) > targetY)
+                    {
+                        coveredXPos.Add(sX+i);
+                        coveredXPos.Add(sX-i);
+                    }
+                    else if ((sY < targetY) && (d-i) < targetY)
+                    {
+                        coveredXPos.Add(sX+i);
+                        coveredXPos.Add(sX-i);
+                    }
+                }
+            }
+
+            return coveredXPos;
         }
 
         private static int Distance(Vector2 s, Vector2 b)
